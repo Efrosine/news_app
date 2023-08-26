@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/features/daily_news/domain/entities/article_ent.dart';
 import 'package:news_app/features/daily_news/presentation/bloc/remote/bloc/remote_article_bloc.dart';
 import 'package:news_app/features/daily_news/presentation/widgets/article_tile.dart';
 
@@ -18,16 +19,15 @@ class HomeNews extends StatelessWidget {
     return AppBar(
       title: const Text(
         'Daily News',
-        style: TextStyle(
-           color: Colors.black,
-           fontWeight: FontWeight.bold
-        ),
-        ),
-      actions: const [
-        Padding(
-          padding: EdgeInsets.only(right: 14),
-          child: Icon(Icons.bookmark, color: Colors.black),
-        )
+        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      ),
+      actions: [
+        GestureDetector(
+            onTap: () => _onShowSavedArticleViewTapped(context),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14),
+              child: Icon(Icons.bookmark, color: Colors.black),
+            ))
       ],
     );
   }
@@ -49,6 +49,7 @@ class HomeNews extends StatelessWidget {
               itemBuilder: (context, index) {
                 return ArticleWidget(
                   article: state.article![index],
+                  onArticlePressed: (article) => _onArticlePressed(context, article),
                 );
               },
               itemCount: state.article!.length,
@@ -58,5 +59,13 @@ class HomeNews extends StatelessWidget {
         }
       },
     );
+  }
+
+   void _onArticlePressed(BuildContext context, ArticleEntity article) {
+    Navigator.pushNamed(context, '/ArticleDetails', arguments: article);
+  }
+
+  _onShowSavedArticleViewTapped(BuildContext context) {
+    Navigator.pushNamed(context, '/SavedArticles');
   }
 }

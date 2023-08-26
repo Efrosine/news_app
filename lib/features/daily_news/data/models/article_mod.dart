@@ -1,7 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:floor/floor.dart';
 import 'package:news_app/features/daily_news/domain/entities/article_ent.dart';
 
-@JsonSerializable()
+@Entity(tableName: 'article',primaryKeys: ['id'])
 class ArticleModel extends ArticleEntity {
   const ArticleModel(
       {int? id,
@@ -31,5 +31,18 @@ class ArticleModel extends ArticleEntity {
         urlToImage: map['urlToImage'] ?? "",
         publichedAt: map['publishedAt'] ?? "",
         content: map['content'] ?? '');
+  }
+
+  factory ArticleModel.fromEntity(ArticleEntity entity){
+    return ArticleModel(
+      id: entity.id,
+      author: entity.author,
+      title: entity.title,
+      description: entity.description,
+      url: entity.url,
+      urlToImage: entity.urlToImage,
+      publichedAt: entity.publichedAt,
+      content: entity.content
+    );
   }
 }

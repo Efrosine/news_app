@@ -145,6 +145,7 @@ class ArticleWidget extends StatelessWidget {
   }
 
   void _onTap() {
+    print('tapped');
     if (onArticlePressed != null) {
       onArticlePressed!(article!);
     }
